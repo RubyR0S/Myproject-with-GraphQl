@@ -1,0 +1,15 @@
+<h1><%= @username %>, welcome!</h1>
+
+<%= link_to 'Back', root_path %>
+
+<% if defined?(@fullname) %>
+  <h1>Your full name: </h1><h2><%= @fullname %></h2>
+<br>
+  <h1>The list of your repositories</h1>
+
+  <% @repos.each do |repos_name| %>
+    <h2>-<%= repos_name %></h2>
+  <% end %>
+<% else %>
+  <h1>No such user exists!</h1>
+<% end %>
