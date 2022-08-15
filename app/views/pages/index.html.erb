@@ -1,0 +1,49 @@
+<h1>Here you can find user in GitHub and the list of him repositories!</h1>
+
+<div class="mb-3">
+  <label class="form-label">GitHub_login</label>
+  <%= text_field_tag :username, nil, id: 'user-name', required: true %>
+</div>
+<%= submit_tag 'Find', id: 'find-user'  %>
+<br/>
+<br/>
+<br/>
+<h4>Fullname: </h4>
+<h1 id='full-name'></h1>
+
+<h4>List of repos</h4>
+<ul id='repos-list'></ul>
+
+<script type="module">
+  import { ApolloClient, InMemoryCache, useQuery, gql } from "@apollo/client";
+
+  const client = new ApolloClient({
+    uri: 'http://localhost:3000/graphql',
+    cache: new InMemoryCache()
+  });
+
+  $(document).ready(function() {
+    $("#find-user").on('click', function() { 
+      client.query({
+        query: gql`
+          query userInfo($username: String!){
+            githubFullName(username:$username)
+            githubRepos(username:$username)
+          }
+        `,
+        variables: {
+          username: $("#user-name").val()
+        }
+      }).then(processGraphResponse)
+    })
+  })
+
+  function processGraphResponse(result) {
+    $("#repos-list").empty()
+
+    $.each(result.data.githubRepos, function( index, value ) {
+      $("#repos-list").append(`<li>${value}</li>`)
+    });
+    $('#full-name').text(result.data.githubFullName)
+  }
+</script>
