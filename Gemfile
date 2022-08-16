@@ -46,6 +46,7 @@ gem 'bootsnap', require: false
 gem 'httparty'
 
 gem 'graphql'
+gem 'graphiql-rails', group: :development
 
 gem 'jslint_on_rails'
 
@@ -83,4 +84,4 @@ group :test do
   gem 'webdrivers'
   gem "webmock"
 end
-gem 'graphiql-rails', group: :development
+
